@@ -6,8 +6,8 @@ Topic from the notice: **3. I/O data transfer (programmed I/O, interrupt-driven 
 
 | Name | PRN |
 |---|---|
-| Shraddha Chetan Dolas | 2125UIDF1115 |
-| Saish Sandeep Lokhande | 2125UIDM1093 |
+| Prasad Sudhir Thorat | 2125UIDM1002 |
+| Vaishnavi Subhash Shelke | 2125UIDF1073 |
 
 
 ## What it does
