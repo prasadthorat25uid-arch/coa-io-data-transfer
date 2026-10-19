@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I/O Data Transfer Simulator</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .hidden{display:none!important}
+  .bar{height:12px;background:var(--line);border-radius:6px;overflow:hidden;min-width:100px}
+  .bar i{display:block;height:100%;background:var(--good)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;margin-top:6px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  td.best{background:var(--good-soft);font-weight:650}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div>
+    <h1>I/O Data Transfer Simulator</h1>
+    <div class="sub">Programmed I/O vs interrupt-driven I/O vs DMA &middot; COA CO5 Micro Project &middot; Sanjivani University</div>
+  </div>
+  <div class="team">
+    <b>Shraddha Chetan Dolas</b> &middot; PRN 2125UIDF1115<br>
+    <b>Saish Sandeep Lokhande</b> &middot; PRN 2125UIDM1093
+  </div>
+</div></header>
+
+<main>
+  <section class="panel">
+    <h2>Setup</h2>
+    <div class="controls">
+      <label class="field">Transfer method
+        <select id="method"><option value="pio">Programmed I/O (polling)</option><option value="interrupt">Interrupt-driven I/O</option><option value="dma">Direct memory access (DMA)</option></select>
+      </label>
+      <label class="field">Words to transfer <input type="number" id="words" min="1" max="64"></label>
+      <label class="field">Device delay per word (cycles) <input type="number" id="devDelay" min="1" max="500"></label>
+      <label class="field">CPU time to move a word <input type="number" id="xfer" min="1" max="100"></label>
+      <label class="field">One status poll <input type="number" id="poll" min="1" max="100"></label>
+      <label class="field">Interrupt overhead <input type="number" id="intCost" min="2" max="200"></label>
+      <label class="field">DMA setup time <input type="number" id="dmaSetup" min="1" max="500"></label>
+      <label class="field">DMA bus cycles per word <input type="number" id="dmaCycle" min="1" max="100"></label>
+      <button id="btnDefaults">Reset values</button>
+    </div>
+    <div class="err" id="err" style="margin-top:6px"></div>
+    <div class="note" style="margin-top:6px">All times are in CPU clock cycles. A slow device (large delay) is where polling hurts most; a very fast device with only a few words is where interrupt and DMA overhead stops paying off. Try both.</div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel">
+      <h2>Who is doing what <span class="note" id="diagNote"></span></h2>
+      <div id="diagram"></div>
+    </section>
+    <section class="panel">
+      <h2>Step by step</h2>
+      <div class="btnrow">
+        <button class="primary" id="btnStep">Next event</button>
+        <button id="btnPlay">Play</button>
+        <button id="btnAll">Show everything</button>
+        <button id="btnReset">Restart</button>
+      </div>
+      <div style="margin-top:12px;min-height:96px" id="now"><span class="muted">Press <b>Next event</b> to start the transfer.</span></div>
+      <div class="note" id="progress"></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Timeline (cycles)</h2>
+    <div id="timeline"></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel">
+      <h2>Result for the selected method</h2>
+      <div class="stats" id="stats"></div>
+    </section>
+    <section class="panel">
+      <h2>All three methods, same settings</h2>
+      <table id="cmp"></table>
+      <div class="note" style="margin-top:4px">"CPU useful" = cycles the CPU could spend on its own programs while the transfer was going on. Green cell = best in that row.</div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Event list</h2>
+    <div class="log" id="log" style="max-height:280px"></div>
+  </section>
+</main>
+<footer>Department of Integrated B.Tech &middot; Computer Organization and Architecture &middot; CO5 micro project. This is a timing model, not a hardware emulator: it shows where the CPU's cycles go.</footer>
+<script src="io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
